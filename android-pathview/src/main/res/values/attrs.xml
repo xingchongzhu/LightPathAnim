@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="PathAnimView">
+    <attr name="pathColor" format="color|reference"/>
+    <attr name="pathWidth" format="dimension|reference"/>
+    <attr name="svg" format="reference"/>
+    <attr name="fill" format="boolean"/>
+    <attr name="fillColor" format="color|reference"/>
+    <attr name="naturalColors" format="boolean"/>
+    <attr name="outlineColor" format="color|reference"/>、
+    <attr name="fillOutline" format="boolean"/>
+    <attr name="infinite" format="boolean"/>
+    <attr name="autoStart" format="boolean"/>
+    <attr name="duration" format="float|reference"/>
+    <attr name="randColor" format="boolean"/>
+  </declare-styleable>
+
+  <declare-styleable name="LineAnimView">
+    <attr name="stepDuaration" format="float|reference"/>
+    <attr name="linePathColor" format="color|reference"/>
+    <attr name="lineShader" format="boolean"/>
+    <attr name="lineShaderSize" format="float|reference"/>
+  </declare-styleable>
+
+  <declare-styleable name="StarAnimView">
+    <attr name="starduration" format="float|reference"/>
+    <attr name="starcount" format="integer|reference"/>
+    <attr name="starsweep" format="integer|reference"/>
+  </declare-styleable>
+</resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#000000"
+    android:gravity="center">
+
+    <com.path.androipathview.LinePathAnimView
+        android:id="@+id/rect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        app:autoStart="true"
+        app:duration="1000"
+        app:fillOutline="true"
+        app:infinite="true"
+        app:linePathColor="@color/line_path_color"
+        app:lineShader="true"
+        app:lineShaderSize="5"
+        app:naturalColors="true"
+        app:outlineColor="@color/outline_color"
+        app:pathColor="@android:color/white"
+        app:pathWidth="2dp"
+        app:randColor="true"
+        app:stepDuaration="5"
+        app:svg="@raw/rect" />
+
+    <com.path.androipathview.StarView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:starcount="50"
+        app:starduration="300"
+        app:starsweep="340" />
+
+    <com.path.androipathview.LinePathAnimView
+        android:id="@+id/pathView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        app:autoStart="true"
+        app:duration="1000"
+        app:fillOutline="true"
+        app:infinite="true"
+        app:linePathColor="@color/line_path_color"
+        app:lineShader="true"
+        app:lineShaderSize="5"
+        app:naturalColors="true"
+        app:outlineColor="@color/outline_color"
+        app:pathColor="@android:color/white"
+        app:pathWidth="2dp"
+        app:randColor="true"
+        app:stepDuaration="5"
+        app:svg="@raw/chip" />
+
+    <com.path.androipathview.LinePathAnimView
+        android:id="@+id/mianPathView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        app:autoStart="true"
+        app:duration="1000"
+        app:fillOutline="true"
+        app:infinite="true"
+        app:linePathColor="@color/line_path_color"
+        app:lineShader="true"
+        app:lineShaderSize="5"
+        app:naturalColors="true"
+        app:outlineColor="@color/outline_color"
+        app:pathColor="@android:color/white"
+        app:pathWidth="2dp"
+        app:randColor="true"
+        app:stepDuaration="5"
+        app:svg="@raw/main_chip" />
+</FrameLayout>
