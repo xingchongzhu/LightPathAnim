@@ -8,6 +8,7 @@ import android.graphics.PathMeasure;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import static com.path.utils.SvgUtils.getPathRect;
@@ -39,9 +40,10 @@ public class BaseAnimHelper {
     protected long stepDuaration;//单位时间
     protected boolean mIsInfinite;//是否无限循环
     protected boolean mAuto;
-    protected Interpolator interpolator;
+    protected Interpolator interpolator = new AccelerateDecelerateInterpolator();
 
     protected ValueAnimator mAnimator;//动画对象
+    protected boolean startLoop = false;
 
     protected Rect mBoundRect = new Rect();
 
@@ -49,6 +51,7 @@ public class BaseAnimHelper {
     private float mAllLength = 0;//总长度
     private int mAllCount = 0;
     private int mCurrentCount = 0;
+    protected AnimaLoopCallback mAnimaLoopCallback;
 
     /**
      * INIT FUNC
@@ -84,6 +87,10 @@ public class BaseAnimHelper {
 
         Log.d(TAG,"initStartAndEndPosition rect "+mBoundRect);
         return this;
+    }
+
+    public void setAnimaLoopCallback(AnimaLoopCallback mAnimaLoopCallback) {
+        this.mAnimaLoopCallback = mAnimaLoopCallback;
     }
 
     /**
@@ -221,6 +228,10 @@ public class BaseAnimHelper {
                 super.onAnimationEnd(animation);
                 if(nextAnima(sourcePath,animPath,animation,isInfinite)) {
                     loopAnim(view,sourcePath,animPath,pathMeasure,getDuration(pathMeasure.getLength(),stepDuaration),isInfinite);
+                    startLoop = true;
+                    if(mAnimaLoopCallback != null){
+                        mAnimaLoopCallback.startLoop();
+                    }
                 }
             }
         });
@@ -241,6 +252,8 @@ public class BaseAnimHelper {
                 pathMeasure.setPath(sourcePath, false);
                 return true;
             } else {//不需要就停止（因为repeat是无限 需要手动停止）
+                animPath.reset();
+                animPath.lineTo(0, 0);
                 return false;
             }
         }
@@ -269,5 +282,9 @@ public class BaseAnimHelper {
         float value = (float) animation.getAnimatedValue();
         //获取一个段落
         pathMeasure.getSegment(0, pathMeasure.getLength() * value, animPath, true);
+    }
+
+    public static interface AnimaLoopCallback{
+        void startLoop();
     }
 }

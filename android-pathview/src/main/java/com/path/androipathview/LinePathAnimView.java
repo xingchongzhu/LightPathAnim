@@ -10,6 +10,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.path.anim.BaseAnimHelper;
 import com.path.mylibrary.R;
+import com.path.utils.ColorUtils;
 import com.path.utils.SvgUtils;
 
 import java.util.List;
@@ -20,12 +21,11 @@ import java.util.List;
  * date : 2021/6/24
  * mail : hangchong.zhu@royole.com
  */
-public class LinePathAnimView extends PathAnimView {
+public class LinePathAnimView extends PathAnimView implements BaseAnimHelper.AnimaLoopCallback {
 
     protected BaseAnimHelper mPathAnimHelper;//Path动画工具类
     //单点时间
     protected long stepDuaration = 0;
-    private Paint linePath = new Paint(Paint.ANTI_ALIAS_FLAG);
     private boolean shader = false;
     private float shaderSize = 0;
 
@@ -40,11 +40,6 @@ public class LinePathAnimView extends PathAnimView {
     public LinePathAnimView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         getFromAttributes(context,attrs);
-        init();
-    }
-
-    private void init() {
-        linePath.setStrokeWidth(painWidth);
     }
 
     private void getFromAttributes(Context context, AttributeSet attrs) {
@@ -52,7 +47,6 @@ public class LinePathAnimView extends PathAnimView {
         try {
             if (a != null) {
                 stepDuaration = (long) a.getFloat(R.styleable.LineAnimView_stepDuaration, 1f);
-                linePath.setColor(a.getColor(R.styleable.LineAnimView_linePathColor, 0x3898989));
                 shaderSize = a.getFloat(R.styleable.LineAnimView_lineShaderSize, 1f);
                 shader = a.getBoolean(R.styleable.LineAnimView_lineShader, false);
             }
@@ -81,8 +75,11 @@ public class LinePathAnimView extends PathAnimView {
                     animPath(mAnimPath).
                     infinite(infinite).
                     auto(autoStart).
-                    interpolator(new AccelerateDecelerateInterpolator()).
                     setStepDuaration(stepDuaration);
+        }
+
+        if(mPathAnimHelper != null){
+            mPathAnimHelper.setAnimaLoopCallback(this);
         }
     }
 
@@ -102,8 +99,8 @@ public class LinePathAnimView extends PathAnimView {
     }
 
     @Override
-    public void resetPathHelper(List<SvgUtils.SvgPath> paths) {
-        super.resetPathHelper(paths);
+    public void mergePathHelper(List<SvgUtils.SvgPath> paths) {
+        super.mergePathHelper(paths);
         if(mPathAnimHelper == null) {
             mPathAnimHelper = new BaseAnimHelper(this, allPath, mAnimPath);
         }else{
@@ -124,6 +121,16 @@ public class LinePathAnimView extends PathAnimView {
                     }
                 }
             });
+        }
+    }
+
+    @Override
+    public void startLoop() {
+        /**
+         * 如果使用随机色则每次循环改变一次颜色
+         */
+        if(randColor){
+            paint.setColor(ColorUtils.getRandomColor());
         }
     }
 }

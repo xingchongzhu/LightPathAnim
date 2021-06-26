@@ -1,30 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <declare-styleable name="PathAnimView">
+    <!-- 画笔路径颜色-->
     <attr name="pathColor" format="color|reference"/>
+    <!-- 画笔宽度-->
     <attr name="pathWidth" format="dimension|reference"/>
+    <!-- svg文件id-->
     <attr name="svg" format="reference"/>
+    <!-- 使用原内容填充-->
     <attr name="fill" format="boolean"/>
+    <!-- 填充颜色-->
     <attr name="fillColor" format="color|reference"/>
+    <!-- 使用svg文件原来path颜色-->
     <attr name="naturalColors" format="boolean"/>
-    <attr name="outlineColor" format="color|reference"/>、
+    <!-- 轮廓颜色-->
+    <attr name="outlineColor" format="color|reference"/>
+    <!-- 是否用轮廓填充-->
     <attr name="fillOutline" format="boolean"/>
+    <!-- 是否使用循环动画-->
     <attr name="infinite" format="boolean"/>
+    <!-- 动画是否自动开始-->
     <attr name="autoStart" format="boolean"/>
+    <!-- 动画执行时间-->
     <attr name="duration" format="float|reference"/>
+    <!-- 是否使用随机生成颜色-->
     <attr name="randColor" format="boolean"/>
+    <!-- 是否用光晕效果画笔-->
+    <attr name="maskFilter" format="boolean"/>
+    <!-- 光晕效果类型(0 内外都模糊绘制),(1 内部正常绘制，外部模糊)，(2 内部不绘制，外部模糊)，(3 内部模糊，外部不绘制)-->
+    <attr name="maskFilterType" format="integer"/>
+    <attr name="maskFilterRadius" format="float"/>
   </declare-styleable>
 
   <declare-styleable name="LineAnimView">
+    <!-- 每一个px移动时间建议小于5 -->
     <attr name="stepDuaration" format="float|reference"/>
-    <attr name="linePathColor" format="color|reference"/>
+    <!-- -->
     <attr name="lineShader" format="boolean"/>
+    <!-- -->
     <attr name="lineShaderSize" format="float|reference"/>
   </declare-styleable>
 
   <declare-styleable name="StarAnimView">
+    <!-- 时间-->
     <attr name="starduration" format="float|reference"/>
+    <!-- 流星数量-->
     <attr name="starcount" format="integer|reference"/>
+    <!-- 流星角度-->
     <attr name="starsweep" format="integer|reference"/>
   </declare-styleable>
 </resources>

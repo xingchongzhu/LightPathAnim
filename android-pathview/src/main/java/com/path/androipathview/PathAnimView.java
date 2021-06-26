@@ -3,6 +3,8 @@ package com.path.androipathview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
+import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import com.path.anim.BaseAnimator;
 import com.path.listener.ResourceLoaderListener;
 import com.path.mylibrary.R;
+import com.path.utils.BlurMaskUtils;
 import com.path.utils.ColorUtils;
 import com.path.utils.SvgUtils;
 
@@ -97,6 +100,10 @@ public class PathAnimView extends ImageView implements SvgUtils.AnimationStepLis
      * drawing.
      */
     protected Bitmap mTempBitmap;
+
+    protected BlurMaskFilter blurMaskFilter;
+    protected Boolean maskFilter = false;
+
     /**
      * Will be used as a temporary Canvas for mTempBitmap for drawing content on it.
      */
@@ -184,7 +191,17 @@ public class PathAnimView extends ImageView implements SvgUtils.AnimationStepLis
                 duration = (long) a.getFloat(R.styleable.PathAnimView_duration, 1000f);
                 randColor = a.getBoolean(R.styleable.PathAnimView_randColor, false);
                 fillColor = a.getColor(R.styleable.PathAnimView_fillColor, Color.argb(0, 0, 0, 0));
+                maskFilter = a.getBoolean(R.styleable.PathAnimView_maskFilter, false);
+                if(maskFilter) {
+                    blurMaskFilter = new BlurMaskFilter(a.getFloat(R.styleable.PathAnimView_maskFilterRadius, 1f),
+                            BlurMaskUtils.convertBlurMaskFilter(a.getInteger(R.styleable.PathAnimView_maskFilterType, 0)));
+                }
+                if(randColor){
+                    paint.setColor(ColorUtils.getRandomColor());
+                }
+                paint.setMaskFilter(blurMaskFilter);
             }
+
         } finally {
             if (a != null) {
                 a.recycle();
@@ -398,9 +415,10 @@ public class PathAnimView extends ImageView implements SvgUtils.AnimationStepLis
                         height = h - getPaddingTop() - getPaddingBottom();
                         paths = svgUtils.getPathsForViewport(width, height);
                     }
-                    resetPathHelper(paths);
+                    mergePathHelper(paths);
                     updatePathsPhaseLocked();
                     randCreateColor(paths);
+                    setPaintMaskFilter(paths);
                     PathAnimView.this.postInvalidate();
                     Log.d(LOG_TAG, "onSizeChanged paths.size = " + paths.size());
                     onLoadComplete();
@@ -410,16 +428,33 @@ public class PathAnimView extends ImageView implements SvgUtils.AnimationStepLis
         }
     }
 
+    /**
+     * des 设置画笔光晕
+     * @param paths
+     */
+    private void setPaintMaskFilter(List<SvgUtils.SvgPath> paths) {
+        for (SvgUtils.SvgPath svgPath : paths) {
+            svgPath.paint.setMaskFilter(blurMaskFilter);
+        }
+    }
+
+    /**
+     * des 随机创建画笔颜色
+     * @param paths
+     */
     private void randCreateColor(List<SvgUtils.SvgPath> paths) {
         if(randColor) {
             for (SvgUtils.SvgPath svgPath : paths) {
                 svgPath.setPatinColor(ColorUtils.getRandomColor());
             }
         }
-
     }
 
-    public void resetPathHelper(List<SvgUtils.SvgPath> paths){
+    /**
+     * des 合并路径成一个作为动画
+     * @param paths
+     */
+    public void mergePathHelper(List<SvgUtils.SvgPath> paths){
         allPath.reset();
         allPath.lineTo(0,0);
 

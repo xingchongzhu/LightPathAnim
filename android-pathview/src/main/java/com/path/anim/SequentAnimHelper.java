@@ -6,12 +6,11 @@ import android.graphics.PathMeasure;
 import android.view.View;
 
 /**
- * 介绍：自定义的PathAnimHelper，实现类似Android L+ 进度条效果
- * 作者：zhangxutong
- * 邮箱：zhangxutong@imcoming.com
- * 时间： 2016/11/3.
+ * @author : xingchong.zhu
+ * description : 光束流动从0-1填满整条path
+ * date : 2021/6/26
+ * mail : hangchong.zhu@royole.com
  */
-
 public class SequentAnimHelper extends BaseAnimHelper {
 
     public SequentAnimHelper() {

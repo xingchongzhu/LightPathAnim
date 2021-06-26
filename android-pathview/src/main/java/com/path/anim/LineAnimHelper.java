@@ -6,13 +6,13 @@ import android.graphics.PathMeasure;
 import android.view.View;
 
 /**
- * 介绍：自定义的PathAnimHelper，实现类似Android L+ 进度条效果
- * 作者：zhangxutong
- * 邮箱：zhangxutong@imcoming.com
- * 时间： 2016/11/3.
+ * @author : xingchong.zhu
+ * description : 光束流动效果取当前长度一半
+ * date : 2021/6/26
+ * mail : hangchong.zhu@royole.com
  */
-
 public class LineAnimHelper extends BaseAnimHelper {
+    private final static float PROPORTION = 0.5f;
 
     public LineAnimHelper() {
         super();
@@ -31,7 +31,7 @@ public class LineAnimHelper extends BaseAnimHelper {
         float value = (float) animation.getAnimatedValue();
         //获取一个段落
         float end = pathMeasure.getLength() * value;
-        float begin = (float) (end - ((0.5 - Math.abs(value - 0.5)) * pathMeasure.getLength()));
+        float begin = (float) (end - ((PROPORTION - Math.abs(value - PROPORTION)) * pathMeasure.getLength()));
         animPath.reset();
         animPath.lineTo(0, 0);
         pathMeasure.getSegment(begin, end, animPath, true);
